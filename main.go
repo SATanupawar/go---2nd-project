@@ -26,6 +26,7 @@ func main() {
 	// Register routes
 	r.HandleFunc("/api/users", handlers.CreateUserhandler).Methods("POST")
 	r.HandleFunc("/api/users", handlers.GetAllUsersHandler).Methods("GET")
+	r.HandleFunc("/api/users/{id}", handlers.GetUserByIdHandler).Methods("GET")
 
 	// Start the server
 	port := ":8080"

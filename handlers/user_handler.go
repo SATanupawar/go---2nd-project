@@ -52,4 +52,25 @@ w.Header().Set("content-type" , "application/json")
 // encode the data 
 json.NewEncoder(w).Encode(users)
 }
+
+
+
+
+func GetUserByIdHandler(w http.ResponseWriter, r *http.Request){
+
+	id := r.URL.Path[len("/api/users/"):]
+
+	user , err := models.GetUserById(id)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// set header 
+	w.Header().Set("content-type" , "application/json")
+
+	// encode the data 
+	json.NewEncoder(w).Encode(user)
+
+}
                                                               

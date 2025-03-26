@@ -39,3 +39,20 @@ func GetAllUser() ([]User, error) {
 	}
 	return users, nil
 }
+
+func GetUserById(id string) (User, error) {
+	query := "SELECT id , name , email , created_at FROM users WHERE id = $1"
+	row, err := config.DB.Query(query, id)
+	if err != nil {
+		return User{}, err
+	}
+	defer row.Close()
+ 
+	var user User
+	row.Next()
+	err = row.Scan(&user.ID, &user.Name, &user.Email, &user.CreatedAt)
+	if err != nil {
+		return User{}, err
+	}
+	return user, nil
+}
