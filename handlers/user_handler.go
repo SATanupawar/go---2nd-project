@@ -36,3 +36,20 @@ func CreateUserhandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 	fmt.Fprintf(w, "User created successfully")
 }
+
+// GetAllUsersHandler retrieves all users from the database
+func GetAllUsersHandler(w http.ResponseWriter, r *http.Request) {
+	// Get all users from the database
+	users , err := models.GetAllUser()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+// set heder 
+w.Header().Set("content-type" , "application/json")
+
+// encode the data 
+json.NewEncoder(w).Encode(users)
+}
+                                                              
