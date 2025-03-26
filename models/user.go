@@ -56,3 +56,10 @@ func GetUserById(id string) (User, error) {
 	}
 	return user, nil
 }
+
+// UpdateUser updates an existing user in the database
+func UpdateUser(id string, name, email string) error {
+	query := "UPDATE users SET name = $1, email = $2 WHERE id = $3"
+	_, err := config.DB.Exec(query, name, email, id)
+	return err
+}

@@ -27,6 +27,8 @@ func main() {
 	r.HandleFunc("/api/users", handlers.CreateUserhandler).Methods("POST")
 	r.HandleFunc("/api/users", handlers.GetAllUsersHandler).Methods("GET")
 	r.HandleFunc("/api/users/{id}", handlers.GetUserByIdHandler).Methods("GET")
+	r.HandleFunc("/api/users/{id}", handlers.UpdateUserHandler).Methods("PUT")
+	// r.HandleFunc("/api/users/{id}", handlers.DeleteUserHandler).Methods("DELETE")
 
 	// Start the server
 	port := ":8080"

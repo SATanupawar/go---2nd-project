@@ -73,4 +73,41 @@ func GetUserByIdHandler(w http.ResponseWriter, r *http.Request){
 	json.NewEncoder(w).Encode(user)
 
 }
+
+
+func UpdateUserHandler(w http.ResponseWriter, r *http.Request) {
+	// Extract the user ID from the URL path
+	id := r.URL.Path[len("/api/users/"):]
+
+	// Check if the user exists
+	_, err := models.GetUserById(id)
+	if err != nil {
+		http.Error(w, "User not found", http.StatusNotFound)
+		return
+	}
+
+	// Decode the request body
+	var requestBody RequestBody
+	err = json.NewDecoder(r.Body).Decode(&requestBody)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// Update the user in the database
+	err = models.UpdateUser(id, requestBody.Name, requestBody.Email)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Return a success response
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, "User updated successfully")
+}
+
+
+
+
+
                                                               
